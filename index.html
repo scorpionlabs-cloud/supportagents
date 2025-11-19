@@ -1,0 +1,578 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Agentic Call Center & Technical Support – Frontend Only</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      :root {
+        color-scheme: dark;
+        --bg: #020617;
+        --border: #1f2937;
+        --text: #e5e7eb;
+        --muted: #6b7280;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        padding: 16px;
+      }
+
+      .card {
+        width: 100%;
+        max-width: 900px;
+        background: #020617;
+        border-radius: 16px;
+        border: 1px solid var(--border);
+        box-shadow: 0 24px 80px rgba(0, 0, 0, 0.6);
+        padding: 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .title {
+        font-size: 20px;
+        font-weight: 600;
+        margin: 0;
+      }
+
+      .subtitle {
+        margin: 0;
+        font-size: 12px;
+        color: #9ca3af;
+      }
+
+      .subtitle code {
+        font-size: 11px;
+      }
+
+      .roles {
+        margin-top: 6px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+
+      .role-pill {
+        padding: 3px 8px;
+        border-radius: 999px;
+        font-size: 11px;
+        color: #f9fafb;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+      }
+
+      .role-pill span {
+        opacity: 0.8;
+        font-size: 9px;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+      }
+
+      .pill-user {
+        background: #1d4ed8;
+      }
+      .pill-cc {
+        background: #16a34a;
+      }
+      .pill-tech {
+        background: #9333ea;
+      }
+
+      .quick-actions {
+        margin-top: 8px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+
+      .quick-button {
+        border-radius: 999px;
+        border: 1px solid #1f2937;
+        background: #020617;
+        color: #e5e7eb;
+        font-size: 11px;
+        padding: 4px 10px;
+        cursor: pointer;
+        white-space: nowrap;
+      }
+
+      .quick-button:hover {
+        border-color: #2563eb;
+      }
+
+      .quick-button[disabled] {
+        opacity: 0.5;
+        cursor: default;
+      }
+
+      .chat {
+        margin-top: 10px;
+        border-radius: 12px;
+        border: 1px solid var(--border);
+        background: #020617;
+        padding: 10px;
+        max-height: 430px;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .empty {
+        font-size: 13px;
+        color: var(--muted);
+      }
+
+      .row {
+        display: flex;
+        gap: 8px;
+        align-items: flex-start;
+      }
+
+      .badge {
+        padding: 3px 8px;
+        border-radius: 999px;
+        font-size: 11px;
+        color: #f9fafb;
+        white-space: nowrap;
+        flex-shrink: 0;
+      }
+
+      .badge.user {
+        background: #1d4ed8;
+      }
+      .badge.call_center {
+        background: #16a34a;
+      }
+      .badge.tech_support {
+        background: #9333ea;
+      }
+
+      .bubble {
+        background: #020617;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 8px 10px;
+        font-size: 13px;
+        line-height: 1.4;
+        flex: 1;
+        white-space: pre-wrap;
+      }
+
+      .typing-bar {
+        margin-top: 4px;
+        min-height: 18px;
+        font-size: 11px;
+        color: #9ca3af;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+      }
+
+      .typing-dot {
+        display: inline-block;
+        width: 4px;
+        height: 4px;
+        border-radius: 999px;
+        background: #9ca3af;
+        animation: blink 1s infinite ease-in-out;
+      }
+
+      .typing-dot:nth-child(2) {
+        animation-delay: 0.2s;
+      }
+      .typing-dot:nth-child(3) {
+        animation-delay: 0.4s;
+      }
+
+      @keyframes blink {
+        0%,
+        20% {
+          opacity: 0.2;
+          transform: translateY(0);
+        }
+        50% {
+          opacity: 1;
+          transform: translateY(-1px);
+        }
+        100% {
+          opacity: 0.2;
+          transform: translateY(0);
+        }
+      }
+
+      .form {
+        margin-top: 10px;
+        display: flex;
+        gap: 8px;
+      }
+
+      .input {
+        flex: 1;
+        border-radius: 999px;
+        border: 1px solid var(--border);
+        background: #020617;
+        color: var(--text);
+        padding: 8px 12px;
+        font-size: 13px;
+        outline: none;
+      }
+
+      .button {
+        border-radius: 999px;
+        border: none;
+        padding: 8px 16px;
+        background: #2563eb;
+        color: #f9fafb;
+        font-size: 13px;
+        cursor: pointer;
+        white-space: nowrap;
+      }
+
+      .button[disabled] {
+        opacity: 0.6;
+        cursor: default;
+      }
+
+      .footer {
+        margin-top: 4px;
+        font-size: 11px;
+        color: #6b7280;
+      }
+
+      .footer strong {
+        color: #e5e7eb;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <h1 class="title">Agentic Call Center & Technical Support</h1>
+      <p class="subtitle">
+        Frontend-only demo: all agents and logic run in the browser. No backend, no LLM.
+        <br />
+        Session: <code id="session-id"></code>
+      </p>
+
+      <div class="roles">
+        <div class="role-pill pill-user">
+          User
+          <span>customer</span>
+        </div>
+        <div class="role-pill pill-cc">
+          Call Center Agent
+          <span>tier 1</span>
+        </div>
+        <div class="role-pill pill-tech">
+          Technical Support
+          <span>tier 2</span>
+        </div>
+      </div>
+
+      <!-- Quick Actions -->
+      <div class="quick-actions" id="quick-actions">
+        <button
+          class="quick-button"
+          data-text="I keep getting 500 errors on the /login API."
+        >
+          500 error on /login
+        </button>
+        <button
+          class="quick-button"
+          data-text="How can I downgrade my subscription plan?"
+        >
+          Change plan
+        </button>
+        <button
+          class="quick-button"
+          data-text="My mobile app cannot connect to the backend API."
+        >
+          Mobile app cannot connect
+        </button>
+        <button
+          class="quick-button"
+          data-text="Where can I find my invoice or billing history?"
+        >
+          Billing / invoice
+        </button>
+        <button
+          class="quick-button"
+          data-text="I forgot my password and cannot log in."
+        >
+          Forgot password
+        </button>
+      </div>
+
+      <!-- Chat window -->
+      <div id="chat" class="chat">
+        <div class="empty">
+          Start chatting or use a quick action. The
+          <strong>Call Center Agent</strong> will respond first and may escalate
+          to the <strong>Technical Support Engineer</strong>. All messages are
+          generated in the browser.
+        </div>
+      </div>
+
+      <!-- Typing indicator -->
+      <div id="typing" class="typing-bar"></div>
+
+      <!-- Input form -->
+      <form id="form" class="form">
+        <input
+          id="input"
+          class="input"
+          type="text"
+          autocomplete="off"
+          placeholder="Describe an issue, e.g. 'I get 500 errors on /login'"
+        />
+        <button id="send" class="button" type="submit">Send</button>
+      </form>
+
+      <div class="footer">
+        Deployment-ready for <strong>GitHub Pages</strong>, <strong>OCI
+        Object Storage</strong>, or any static host.
+      </div>
+    </div>
+
+    <script>
+      // --- Simple session id ---
+      function generateSessionId() {
+        if (window.crypto && window.crypto.randomUUID) {
+          return crypto.randomUUID();
+        }
+        return "sess-" + Math.random().toString(36).slice(2);
+      }
+
+      const sessionId = generateSessionId();
+      document.getElementById("session-id").textContent = sessionId;
+
+      const chatEl = document.getElementById("chat");
+      const formEl = document.getElementById("form");
+      const inputEl = document.getElementById("input");
+      const sendBtn = document.getElementById("send");
+      const typingEl = document.getElementById("typing");
+      const quickActionsEl = document.getElementById("quick-actions");
+      const quickButtons = Array.from(
+        quickActionsEl.querySelectorAll(".quick-button")
+      );
+
+      let messages = [];
+      let loading = false;
+      let typingRole = null;
+
+      function roleToLabel(role) {
+        if (role === "user") return "User";
+        if (role === "call_center") return "Call Center Agent";
+        if (role === "tech_support") return "Technical Support";
+        return "Agent";
+      }
+
+      function roleToClass(role) {
+        if (role === "user") return "badge user";
+        if (role === "call_center") return "badge call_center";
+        if (role === "tech_support") return "badge tech_support";
+        return "badge";
+      }
+
+      function renderMessages() {
+        chatEl.innerHTML = "";
+        if (!messages.length) {
+          const empty = document.createElement("div");
+          empty.className = "empty";
+          empty.textContent =
+            "Start chatting or use a quick action. The Call Center Agent will respond first and may escalate to Technical Support.";
+          chatEl.appendChild(empty);
+          return;
+        }
+
+        messages.forEach((m) => {
+          const row = document.createElement("div");
+          row.className = "row";
+
+          const badge = document.createElement("div");
+          badge.className = roleToClass(m.role);
+          badge.textContent = roleToLabel(m.role);
+
+          const bubble = document.createElement("div");
+          bubble.className = "bubble";
+          bubble.textContent = m.content || "";
+
+          row.appendChild(badge);
+          row.appendChild(bubble);
+          chatEl.appendChild(row);
+        });
+
+        chatEl.scrollTop = chatEl.scrollHeight;
+      }
+
+      function setTyping(role) {
+        typingRole = role;
+        if (!role) {
+          typingEl.innerHTML = "";
+          return;
+        }
+
+        const label = roleToLabel(role);
+        typingEl.innerHTML = `
+          <span>${label} is typing</span>
+          <span class="typing-dot"></span>
+          <span class="typing-dot"></span>
+          <span class="typing-dot"></span>
+        `;
+      }
+
+      function addMessage(role, content) {
+        messages.push({ role, content });
+        renderMessages();
+      }
+
+      // ---- Mock "routing" logic to decide if tech support is needed ----
+      function shouldEscalate(text) {
+        const t = text.toLowerCase();
+        const technicalKeywords = [
+          "error",
+          "500",
+          "404",
+          "timeout",
+          "crash",
+          "bug",
+          "stack",
+          "trace",
+          "database",
+          "db",
+          "connection",
+          "auth",
+          "login",
+          "api",
+          "config",
+          "ssl",
+          "certificate",
+          "server"
+        ];
+        return technicalKeywords.some((k) => t.includes(k));
+      }
+
+      function makeCallCenterReply(userText, escalate) {
+        if (!escalate) {
+          return (
+            [
+              "Thanks for reaching out! I can help you with that.",
+              "Sure, I can assist with this directly.",
+              "Got it, this looks like something I can resolve for you."
+            ][Math.floor(Math.random() * 3)] +
+            " " +
+            'Here’s a quick explanation based on what you shared: "' +
+            userText +
+            '"'
+          );
+        }
+
+        return [
+          "Thanks for the details. This looks a bit technical, so I’ll bring in one of our engineers to take a closer look.",
+          "I see, this may require more in-depth analysis. Let me loop in our Technical Support engineer.",
+          "Good question. To make sure we give you the best answer, I’ll escalate this to Technical Support."
+        ][Math.floor(Math.random() * 3)];
+      }
+
+      function makeTechReply(userText) {
+        return [
+          "Hi, Technical Support here. From what I understand, you're seeing an issue around: \"" +
+            userText +
+            "\".\n\n" +
+            "Here’s what I’d recommend:\n" +
+            "1. Reproduce the issue and check the logs for any obvious errors.\n" +
+            "2. Verify your configuration values (URLs, credentials, environment variables).\n" +
+            "3. If this happens consistently, restart the affected service and monitor.\n\n" +
+            "If you can share more details like timestamps or error messages, we can go deeper.",
+          "Technical Support checking in 👋\n\n" +
+            "Based on your description, this could be related to a backend or configuration problem. Try:\n" +
+            "- Confirming your API endpoint and auth token.\n" +
+            "- Checking any recent deployments or config changes.\n" +
+            "- Reviewing server-side logs around the time of the error.\n\n" +
+            "If it still fails, we can walk through a more detailed diagnostic checklist.",
+          "Hey, I'm the Technical Support engineer.\n\n" +
+            "This kind of issue is often caused by:\n" +
+            "• Misconfigured environment variables\n" +
+            "• Database connectivity issues\n" +
+            "• Authentication or permission errors\n\n" +
+            "Start by reviewing logs for stack traces, then we can narrow it down further."
+        ][Math.floor(Math.random() * 3)];
+      }
+
+      function setLoading(isLoading) {
+        loading = isLoading;
+        sendBtn.disabled = isLoading;
+        quickButtons.forEach((btn) => (btn.disabled = isLoading));
+        sendBtn.textContent = isLoading ? "Thinking..." : "Send";
+      }
+
+      function handleUserMessage(text) {
+        const trimmed = text.trim();
+        if (!trimmed || loading) return;
+
+        setLoading(true);
+        setTyping(null);
+
+        // 1) User message
+        addMessage("user", trimmed);
+
+        // 2) Call Center replies after short delay
+        const escalate = shouldEscalate(trimmed);
+        setTyping("call_center");
+
+        setTimeout(() => {
+          const ccReply = makeCallCenterReply(trimmed, escalate);
+          setTyping(null);
+          addMessage("call_center", ccReply);
+
+          if (escalate) {
+            // 3) Technical Support joins a bit later
+            setTyping("tech_support");
+            setTimeout(() => {
+              const techReply = makeTechReply(trimmed);
+              setTyping(null);
+              addMessage("tech_support", techReply);
+              setLoading(false);
+            }, 1000 + Math.random() * 800);
+          } else {
+            setLoading(false);
+          }
+        }, 700 + Math.random() * 600);
+      }
+
+      formEl.addEventListener("submit", function (e) {
+        e.preventDefault();
+        const value = inputEl.value;
+        if (!value.trim()) return;
+        inputEl.value = "";
+        handleUserMessage(value);
+      });
+
+      // Quick action buttons send predefined messages
+      quickButtons.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const text = btn.getAttribute("data-text") || "";
+          if (!text || loading) return;
+          handleUserMessage(text);
+        });
+      });
+
+      // Initial render
+      renderMessages();
+    </script>
+  </body>
+</html>
